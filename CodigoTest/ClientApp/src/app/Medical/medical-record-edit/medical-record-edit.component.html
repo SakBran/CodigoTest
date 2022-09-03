@@ -1,0 +1,130 @@
+<div *ngIf="this.form">
+  <app-base-edit [Key]="this.Key" [Service]="this.service" [apiurl]="this.apiurl" [BaseForm]="this.form"
+    [Hidden]="this.Hidden" [returnURL]="this.returnURL">
+  </app-base-edit>
+</div>
+
+<div class="container fluid">
+  <div class="center">
+    <br />
+    <style type="text/css">
+      .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+      }
+
+      .tg td {
+        border-color: black;
+        border-style: solid;
+        border-width: 1px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        overflow: hidden;
+        padding: 10px 5px;
+        word-break: normal;
+      }
+
+      .tg th {
+        border-color: black;
+        border-style: solid;
+        border-width: 1px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        overflow: hidden;
+        padding: 10px 5px;
+        word-break: normal;
+      }
+
+      .tg .tg-0pky {
+        border-color: inherit;
+        text-align: left;
+        vertical-align: top
+      }
+    </style>
+    <div class="card">
+      <div class="card-body">
+        <table class="tg" style="table-layout: fixed; width:100%">
+          <colgroup>
+            <col style="width: 83px">
+            <col style="width: 83px">
+            <col style="width: 120px">
+            <col style="width: 83px">
+            <col style="width: 83px">
+            <col style="width: 83px">
+            <col style="width: 83px">
+            <col style="width: 83px">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="tg-0pky" colspan="2">Name:{{this.form.controls['name'].value}}</th>
+              <th class="tg-0pky" colspan="2">Age:{{this.form.controls['age'].value}}</th>
+              <th class="tg-0pky">Sex:{{this.form.controls['sex'].value}}</th>
+              <th class="tg-0pky">Phone:{{this.form.controls['phone'].value}}<br></th>
+              <th class="tg-0pky" colspan="2">Date:{{this.form.controls['date'].value}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tg-0pky" colspan="3">BP:{{this.form.controls['bloodPressure'].value}}</td>
+              <td class="tg-0pky" colspan="3">PR:{{this.form.controls['pulseRate'].value}}</td>
+              <td class="tg-0pky" colspan="2"></td>
+            </tr>
+            <tr>
+              <td class="tg-0pky" colspan="3">Temperature:{{this.form.controls['temperature'].value}}</td>
+              <td class="tg-0pky" colspan="3">SPO2:{{this.form.controls['spO2'].value}}</td>
+              <td class="tg-0pky" colspan="2"></td>
+            </tr>
+            <tr>
+              <td class="tg-0pky" colspan="4" rowspan="4">CHIEF COMPLAINT <br>
+                <textarea rows="7" style="border: 0px;width:100%;overflow:hidden;">{{this.form.controls['historyOfPresentIllness'].value}}</textarea>
+              </td>
+              <td class="tg-0pky" colspan="4" rowspan="4">PAST MEDICAL HISTORY<br>
+                <textarea rows="7" style="border: 0px;width:100%;overflow:hidden;">{{this.form.controls['pastMedicalHistory'].value}}</textarea>
+              </td>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+              <td class="tg-0pky" colspan="4" rowspan="4">
+                EXAMINATION
+                <br>
+                <textarea rows="7" style="border: 0px;width:100%;overflow:hidden;">{{this.form.controls['examination'].value}}</textarea>
+              </td>
+              <td class="tg-0pky" colspan="4" rowspan="4">DRUG HISTORY
+                <br>
+                <textarea rows="7" style="border: 0px;width:100%;overflow:hidden;">{{this.form.controls['drugHistory'].value}}</textarea>
+              </td>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+              <td class="tg-0pky" colspan="4" rowspan="2">INVESTIGATION</td>
+              <td class="tg-0pky" colspan="4" rowspan="2">
+                <textarea rows="7" style="border: 0px;width:100%;overflow:hidden;">{{this.form.controls['investigations'].value}}</textarea>
+              </td>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+              <td class="tg-0pky" colspan="4" rowspan="2">TREATMENT</td>
+              <td class="tg-0pky" colspan="4" rowspan="2">
+                <textarea rows="7" style="border: 0px;width:100%;overflow:hidden;">{{this.form.controls['treatment'].value}}</textarea>
+              </td>
+            </tr>
+            <tr>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

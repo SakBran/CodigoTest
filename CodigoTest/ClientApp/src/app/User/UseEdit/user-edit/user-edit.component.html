@@ -1,0 +1,32 @@
+<div *ngIf="this.form">
+  <app-base-edit [Key]="this.Key" [Hidden]="this.Hidden"  [Service]="this.service" [apiurl]="this.apiurl" [BaseForm]="this.form"
+    [returnURL]="this.returnURL">
+    <div class="col-md-3">
+      <div [formGroup]="this.form" class="form-group">
+        <label for={{this.customerType}}>User Type  <span *ngIf="requiredCheck(this.customerType,this.form)" class="text text-danger">*</span>:</label>
+        <select id={{this.customerType}} formControlName={{this.customerType}} class="form-control"
+          style="width: 100%;">
+          <option value="RegisteredUser">RegisteredUser
+          </option>
+          <option value="InformationTechnolocy">InformationTechnolocy
+          </option>
+          <option value="Office">Office
+          </option>
+          <option value="Factory">Factory
+          </option>
+          <option value="Administrator">Administrator
+          </option>
+          <option value="ReportUser">ReportUser
+          </option>
+        </select>
+       
+
+        <div *ngIf="form.get(this.customerType).errors?.required" class="invalid-feedback">
+          <div *ngIf="form.get(this.customerType).errors?.required">
+            Role is required.
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-base-edit>
+</div>

@@ -1,0 +1,144 @@
+<div class="card card-default m-1">
+  <div class="card-header">
+    <h3 class="card-title">{{title}}</h3>
+    <p *ngIf="this.id && !data && !this.temp"><em>Loading...</em></p>
+    <p *ngIf="this.id && !data && this.temp"><em>Message Confirmation</em></p>
+  </div>
+
+  <div class="card-body">
+    <div class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <div class="row">
+        <ng-container *ngFor="let x of this.formGroup">
+          <!-- For New -->
+          <input *ngIf="this.Key===x && !this.ID" type="hidden" id="{{x}}" formControlName="{{x}}" value="GetGUID()">
+
+          <!-- For Edit -->
+          <input *ngIf="this.Key===x && this.ID" type="hidden" id={{x}} formControlName={{x}}>
+
+          <div *ngIf="this.EntityCode===x" class="col-md-4">
+            <div *ngIf="this.Key!==x" class="form-group">
+              <label for={{x}}>{{formName(x)}}:</label>
+              <br />
+              <input *ngIf="this.EntityCode===x" class="form-control" type="text" id={{x}} formControlName={{x}}
+                readonly>
+
+              <div *ngIf="hasError(x)" class="invalid-feedback">
+                <div *ngIf="form.get(x).errors?.required">
+                  {{formName(x)}} is required.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf='this.EntityCode!==x && this.Key!==x && this.hiddenFilter(x)' class="col-md-4">
+            <div *ngIf="this.Key!==x" class="form-group">
+              <label for={{x}}>{{formName(x)}} <span *ngIf="this.form && this.requiredCheck(x,this.form) "
+                  class="text text-danger">*</span>:</label>
+              <br />
+
+              <div class="row" *ngIf="formType(x)=='date'">
+                <div class="col-6">
+                  <input type="text" id={{x}} formControlName={{x}} required placeholder="{{formName(x)}}..."
+                    [readonly]="true" class="form-control" />
+                </div>
+                <div class="col-6">
+                  <input type="{{formType(x)}}" id={{x}} formControlName={{x}} required placeholder="{{formName(x)}}..."
+                    [readonly]="!this.readonlyFilter(x)" class="form-control" />
+                </div>
+              </div>
+
+
+              <div class="col-3" *ngIf="formType(x)=='link'">
+
+              </div>
+
+              <div class="row" *ngIf="formType(x)=='link'">
+                <div class="col-12">
+                  <a class="form-control" target="_blank" [download]="getValue(x)" [href]="this.baseUrl+'img/'+getValue(x)">Download Here</a>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="formType(x)=='status'">
+                <div class="col-12">
+                  <select class="form-control"  id={{x}} formControlName={{x}} required >
+                      <option value="Prepare">Prepare</option>
+                      <option value="Submit">Submit</option>
+                      <option value="Confirm">Confirm</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="formType(x)=='textArea'">
+                <div class="col-12">
+                  <textarea id={{x}} formControlName={{x}} required class="form-control"></textarea>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="formType(x)=='YesNo'">
+                <div class="col-12">
+                  <select class="form-control"  id={{x}} formControlName={{x}} required >
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="formType(x)=='text'">
+                <div class="col-12">
+                  <input type="{{formType(x)}}" id={{x}} formControlName={{x}} required placeholder="{{formName(x)}}..."
+                    [readonly]="!this.readonlyFilter(x)" class="form-control" />
+                </div>
+              </div>
+
+              <div *ngIf="hasError(x)" class="invalid-feedback">
+                <div *ngIf="form.get(x).errors?.required">
+                  {{formName(x)}} is required.
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </ng-container>
+
+        <ng-content></ng-content>
+
+        <!-- CreateDate -->
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="createDateID">Create Date:</label>
+            <br />
+            <input type="text" id='createDateID' value="{{CreatedDate}}" readonly placeholder="Create date..."
+              class="form-control" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <div class="form-group commands">
+      <button *ngIf="id && !this.temp" type="submit" data-dismiss="modal" (click)="onSubmit()" [disabled]="form.invalid"
+        class="btn btn-success">
+        Edit
+      </button>
+      <button *ngIf="id && this.temp" type="submit" data-dismiss="modal" (click)="onSubmit()" [disabled]="form.invalid"
+        class="btn btn-success">
+        Save
+      </button>
+      &nbsp;
+      <button *ngIf="id && !this.temp" type="submit" data-dismiss="modal" (click)="onDelete()" class="btn btn-danger">
+        Delete
+      </button>
+      <button *ngIf="!id" type="submit" data-dismiss="modal" (click)="onSubmit()" [disabled]="form.invalid"
+        class="btn btn-success">
+        Create
+      </button>
+      <button *ngIf="!this.temp" type="button" data-dismiss="modal" [routerLink]="[this.back]" class="btn">
+        Back
+      </button>
+      <button *ngIf="this.temp" type="button" data-dismiss="modal" class="btn">
+        Close
+      </button>
+    </div>
+  </div>

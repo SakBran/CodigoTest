@@ -1,0 +1,75 @@
+<h1 *ngIf="this.searchBox!=true">{{this.title}} Setup</h1>
+
+<p *ngIf="this.searchBox!=true">List of {{this.title}}</p>
+
+<p *ngIf="!datas"><em>Loading...</em></p>
+
+<div class="commands text-right" *ngIf="this.searchBox!=true">
+  <button type="button" [routerLink]="['/'+this.newURL]" class="btn btn-success">
+    Add
+  </button>
+</div>
+<br />
+<div class="row">
+  <div class="col-6"></div>
+  <div class="form-group col-md-6" [hidden]="!datas">
+    <!-- <input matInput (keyup)="onFilterTextChanged($event.target.value)" placeholder="Filter by name (or part of it)..."> -->
+    <div class="input-group input-group-sm mb-3" bis_skin_checked="1">
+      <div class="input-group-prepend" bis_skin_checked="1">
+        <button type="button" (change)="filterQryChange($event.target.value)" class="btn btn-success dropdown-toggle"
+          data-toggle="dropdown" aria-expanded="false">
+          {{formName(this.defaultFilterColumn)}}
+        </button>
+        <ul class="dropdown-menu">
+          <li class="dropdown-item" *ngFor="let x of displayedColumns" (click)="filterQryChange(x)">
+            <p>{{formName(x)}}</p>
+          </li>
+        </ul>
+      </div>
+      <ng-container *ngIf="dateCheck(this.defaultFilterColumn); else date">
+        <input type="text" (keyup)="onFilterTextChanged($event.target.value)" class="form-control"
+          placeholder="Filter by {{formName(this.defaultFilterColumn)}} (or part of it)..." />
+      </ng-container>
+      <ng-template #date>
+        <input type="date" (keyup)="onFilterTextChanged($event.target.value)" class="form-control"
+          placeholder="Filter by {{formName(this.defaultFilterColumn)}} (or part of it)..." />
+      </ng-template>
+    </div>
+  </div>
+</div>
+<div [hidden]="!datas" class="table-responsive mat-elevation-z8">
+  <button mat-button class="btn btn-sm btn-success" (click)="exporter.exportTable('xlsx')">Export Excel</button>
+  <table mat-table  [dataSource]="datas" class="table-striped"  matTableExporter #exporter="matTableExporter" [hidden]="!datas" matSort (matSortChange)="loadData()"
+    matSortActive="{{defaultSortColumn}}" matSortDirection="{{defaultSortOrder}}">
+    <ng-container *ngFor="let x of displayedColumns" matColumnDef="{{x}}">
+      <ng-container *ngIf="this.SortColumn!==x && this.imageCheck(x)">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{formName(x)}}</th>
+        <td mat-cell *matCellDef="let city;"> {{city[x]}} </td>
+      </ng-container>
+      <ng-container *ngIf="this.SortColumn!==x  && !this.imageCheck(x)">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{formName(x)}}</th>
+        <td mat-cell *matCellDef="let city"><img src="{{this.baseUrl}}img/{{city[x]}}" alt="" border=3
+          height=40 width=40 border="3"> </td>
+
+      </ng-container>
+      <ng-container *ngIf="this.SortColumn===x">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{formName(x)}}</th>
+        <td mat-cell *matCellDef="let city;">
+          <a type="button" *ngIf="this.searchBox!=true"
+            [routerLink]="['/'+this.newURL, city[this.IDcolumn]]">{{city[x]}}</a>
+
+          <a type="button" *ngIf="this.searchBox==true" (click)="setData(city)">{{city[x]}}</a>
+        </td>
+      </ng-container>
+    </ng-container>
+
+
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+<!-- Pagination directive -->
+<mat-paginator [hidden]="!datas" (page)="getData($event)" [pageSize]="10" [pageSizeOptions]="[10, 20, 50]"
+  showFirstLastButtons></mat-paginator>
